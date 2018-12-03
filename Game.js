@@ -1,6 +1,6 @@
 "use strict";
 
-var CellStatus = Object.freeze({"Unknown":1, "NoBomb":2, "Bomb":3, "Invalid":4});
+var CellStatus = Object.freeze({"Unknown":1, "NoMine":2, "Mine":3, "Invalid":4});
 
 class Game
 {
@@ -32,7 +32,7 @@ class Game
             // Let's make sure that this position isn't already in the mine list.
             // If it is, then we'll push the position forward by 1 until we find
             // a position at which there is no mine.
-            while (this.GetCellStatus(x, y) == CellStatus.Bomb)
+            while (this.GetCellStatus(x, y) == CellStatus.Mine)
             {
                 x++;
 
@@ -48,7 +48,7 @@ class Game
                 }
             }
 
-            this.SetCellStatus(x, y, CellStatus.Bomb);
+            this.SetCellStatus(x, y, CellStatus.Mine);
         }
 
         let gridHtml = "";
@@ -63,7 +63,7 @@ class Game
 
                 if (this.IsMineAt(x, y))
                 {
-                    gridHtml += "💣";
+                    gridHtml += `<span class="MineCell">💣</span>`;
                 }
 
                 gridHtml += "</td>";
@@ -127,11 +127,11 @@ class Game
 
         if (mineCount > 0)
         {
-            cellElement.html(mineCount);
+            cellElement.html(`<span class="MineCountCell">${mineCount}</span>`);
         }
         else
         {
-            this.SetCellStatus(x, y, CellStatus.NoBomb);
+            this.SetCellStatus(x, y, CellStatus.NoMine);
 
             this.InvokeOnSurroundingCells(x, y, (adjacentX, adjacentY) =>
             {
@@ -167,7 +167,7 @@ class Game
 
     IsMineAt(x, y)
     {
-        return this.GetCellStatus(x, y) == CellStatus.Bomb;
+        return this.GetCellStatus(x, y) == CellStatus.Mine;
     }
 
     InvokeOnSurroundingCells(x, y, func)
