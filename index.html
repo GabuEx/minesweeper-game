@@ -15,7 +15,7 @@
               let mineCount = $("#mineCountInput").val();
 
               let game = new Game(width, height, mineCount);
-              game.Start($("#GameDiv"));
+              game.Start($("#GameContainer"));
           });
       });
     </script>
@@ -28,6 +28,6 @@
       with <input id="mineCountInput" type="number" value="10" required />  mines.
       <input id="startGameButton" type="button" value="Start game" />
     </div>
-    <div id="GameDiv"></div>
+    <div id="GameContainer"></div>
   </body>
 </html>
