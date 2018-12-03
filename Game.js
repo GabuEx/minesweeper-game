@@ -127,7 +127,7 @@ class Game
 
         if (mineCount > 0)
         {
-            cellElement.html(`<span class="MineCountCell">${mineCount}</span>`);
+            cellElement.html(`<span class="MineCountCell Mine${mineCount}">${mineCount}</span>`);
         }
         else
         {
