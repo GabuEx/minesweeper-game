@@ -117,45 +117,13 @@ class Game
         let cellElement = $(`.Cell[data-x="${x}"][data-y="${y}"]`)
         let mineCount = 0;
 
-        if (this.IsMineAt(x - 1, y - 1))
+        this.InvokeOnSurroundingCells(x, y, (adjacentX, adjacentY) =>
         {
-            mineCount++;
-        }
-
-        if (this.IsMineAt(x, y - 1))
-        {
-            mineCount++;
-        }
-
-        if (this.IsMineAt(x + 1, y - 1))
-        {
-            mineCount++;
-        }
-
-        if (this.IsMineAt(x - 1, y))
-        {
-            mineCount++;
-        }
-
-        if (this.IsMineAt(x + 1, y))
-        {
-            mineCount++;
-        }
-
-        if (this.IsMineAt(x - 1, y + 1))
-        {
-            mineCount++;
-        }
-
-        if (this.IsMineAt(x, y + 1))
-        {
-            mineCount++;
-        }
-
-        if (this.IsMineAt(x + 1, y + 1))
-        {
-            mineCount++;
-        }
+            if (this.IsMineAt(adjacentX, adjacentY))
+            {
+                mineCount++;
+            }
+        });
 
         if (mineCount > 0)
         {
@@ -165,14 +133,10 @@ class Game
         {
             this.SetCellStatus(x, y, CellStatus.NoBomb);
 
-            this.UpdateCell(x - 1, y - 1);
-            this.UpdateCell(x, y - 1);
-            this.UpdateCell(x + 1, y - 1);
-            this.UpdateCell(x - 1, y);
-            this.UpdateCell(x + 1, y);
-            this.UpdateCell(x - 1, y + 1);
-            this.UpdateCell(x, y + 1);
-            this.UpdateCell(x + 1, y + 1);
+            this.InvokeOnSurroundingCells(x, y, (adjacentX, adjacentY) =>
+            {
+                this.UpdateCell(adjacentX, adjacentY);
+            });
         }
     }
 
@@ -204,5 +168,17 @@ class Game
     IsMineAt(x, y)
     {
         return this.GetCellStatus(x, y) == CellStatus.Bomb;
+    }
+
+    InvokeOnSurroundingCells(x, y, func)
+    {
+        func(x - 1, y - 1);
+        func(x, y - 1);
+        func(x + 1, y - 1);
+        func(x - 1, y);
+        func(x + 1, y);
+        func(x - 1, y + 1);
+        func(x, y + 1);
+        func(x + 1, y + 1);
     }
 }
