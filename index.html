@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Minesweeper Game</title>
+    <style type="text/css">
+      table
+      {
+        border-collapse: collapse;
+      }
+
+      table, th, td
+      {
+        border: 1px solid black;
+      }
+
+      #GameDiv
+      {
+        -webkit-user-select: none; /* Safari 3.1+ */
+        -moz-user-select: none; /* Firefox 2+ */
+        -ms-user-select: none; /* IE 10+ */
+        user-select: none; /* Standard syntax */
+        text-align: center;
+        vertical-align: middle;
+        font-family: "Consolas", "Courier New", Courier, monospace;
+        font-size: 20px;
+      }
+
+      td
+      {
+        width: 25px;
+        height: 25px;
+      }
+    </style>
+    <!--
+
+    td:hover
+    {
+      background: green;
+    }
+
+    td:active
+    {
+      background: blue;
+    }-->
+    <script src="jquery-3.3.1.min.js" charset="utf-8"></script>
+    <script src="Game.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      $(document).ready(function()
+      {
+          $("#startGameButton").on("click", function() {
+              let width = $("#widthInput").val();
+              let height = $("#heightInput").val();
+              let mineCount = $("#mineCountInput").val();
+
+              let game = new Game(width, height, mineCount);
+              game.Start($("#GameDiv"));
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <div style="padding-bottom: 10px">
+      <input id="widthInput" type="number" value="10" required />
+      x
+      <input id="heightInput" type="number" value="10" required />
+      with <input id="mineCountInput" type="number" value="10" required />  mines.
+      <input id="startGameButton" type="button" value="Start game" />
+    </div>
+    <div id="GameDiv"></div>
+  </body>
+</html>
