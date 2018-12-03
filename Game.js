@@ -94,7 +94,7 @@ class Game
         // If the player clicked on a mine cell, then the player has lost.
         if (this.IsMineAt(x, y))
         {
-            cellElement.css('background-color', 'red');
+            cellElement.addClass("TriggeredMine");
             this.gameIsOver = true;
         }
         else
@@ -124,6 +124,8 @@ class Game
                 mineCount++;
             }
         });
+
+        cellElement.addClass("Filled");
 
         if (mineCount > 0)
         {
