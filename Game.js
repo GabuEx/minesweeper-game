@@ -51,7 +51,7 @@ class Game
             this.SetCellStatus(x, y, CellStatus.Mine);
         }
 
-        let gridHtml = "";
+        let gridHtml = "<table>";
 
         for (let y = 0; y < this.height; y++)
         {
