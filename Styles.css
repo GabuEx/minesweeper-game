@@ -25,6 +25,16 @@ td.Cell
     height: 25px;
 }
 
+.GameInProgress td.Unknown:hover
+{
+    background-color: #f0f0f0;
+}
+
+.GameInProgress td.Unknown:active
+{
+    background-color: gray;
+}
+
 td.Filled
 {
     background-color: #f0f0f0;

@@ -15,6 +15,7 @@ class Game
     {
         this.cellStatuses = [];
         this.gameIsOver = false;
+        this.contentElement = contentElement;
 
         for (let y = 0; y < this.height; y++)
         {
@@ -59,7 +60,7 @@ class Game
 
             for (let x = 0; x < this.width; x++)
             {
-                gridHtml += `<td class="Cell" data-x="${x}" data-y="${y}">`;
+                gridHtml += `<td class="Cell Unknown" data-x="${x}" data-y="${y}">`;
 
                 if (this.IsMineAt(x, y))
                 {
@@ -74,7 +75,8 @@ class Game
 
         gridHtml += "</table>";
 
-        contentElement.html(gridHtml);
+        this.contentElement.html(gridHtml);
+        this.contentElement.addClass("GameInProgress");
 
         $(".Cell").on("click", { game: this }, function(event) {
             event.data.game.OnCellClicked($(this))
@@ -94,7 +96,9 @@ class Game
         // If the player clicked on a mine cell, then the player has lost.
         if (this.IsMineAt(x, y))
         {
+            cellElement.removeClass("Unknown");
             cellElement.addClass("TriggeredMine");
+            this.contentElement.removeClass("GameInProgress");
             this.gameIsOver = true;
         }
         else
@@ -125,6 +129,7 @@ class Game
             }
         });
 
+        cellElement.removeClass("Unknown");
         cellElement.addClass("Filled");
 
         if (mineCount > 0)
