@@ -19,79 +19,79 @@ table, th, td
     border: 1px solid black;
 }
 
-td.Cell
+.Cell
 {
     width: 25px;
     height: 25px;
 }
 
-.GameInProgress td.Unknown:hover
+.GameInProgress .Unknown:hover
 {
     background-color: #f0f0f0;
 }
 
-.GameInProgress td.Unknown:active
+.GameInProgress .Unknown:active
 {
     background-color: gray;
 }
 
-td.Filled
+.Filled
 {
     background-color: #f0f0f0;
 }
 
-td.TriggeredMine
+.TriggeredMine
 {
     background-color: red;
 }
 
-span.MineCell
+.MineCell
 {
     font-size: 15px;
 }
 
-span.MineCountCell
+.MineCountCell
 {
     font-size: 20px;
     font-weight: bold;
 }
 
-span.Mine1
+.Mine1
 {
     color: blue;
 }
 
-span.Mine2
+.Mine2
 {
     color: green;
 }
 
-span.Mine3
+.Mine3
 {
     color: red;
 }
 
-span.Mine4
+.Mine4
 {
     color: purple;
 }
 
-span.Mine5
+.Mine5
 {
     color: maroon;
 }
 
-span.Mine6
+.Mine6
 {
     color: turquoise;
 }
 
-span.Mine7
+.Mine7
 {
     color: black;
 }
 
-span.Mine8
+.Mine8
 {
     color: gray;
 }
