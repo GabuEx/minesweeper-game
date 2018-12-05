@@ -86,7 +86,7 @@ class Game
         this.contentElement.addClass("GameInProgress");
 
         $(".Cell").on("click", { game: this }, function(event) {
-            event.data.game.OnCellClicked($(this))
+            event.data.game.OnCellClicked($(this));
         });
     }
 
@@ -97,8 +97,8 @@ class Game
             return;
         }
 
-        let x = cellElement.data("x")
-        let y = cellElement.data("y")
+        let x = cellElement.data("x");
+        let y = cellElement.data("y");
 
         // If the player clicked on a mine cell, then the player has lost.
         if (this.IsMineAt(x, y))
