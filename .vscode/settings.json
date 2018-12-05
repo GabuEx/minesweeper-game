@@ -1,5 +1,9 @@
 {
     "files.exclude": {
+        "LICENSE": true,
+        "README.md": true,
+        "*.code-workspace": true,
+        "jquery-3.3.1.min.js": true,
         "**/*.js": { "when": "$(basename).ts" },
         "**/*.js.map": true
     }
