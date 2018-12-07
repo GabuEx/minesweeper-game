@@ -1,23 +1,23 @@
 "use strict";
 var CellStatus = Object.freeze({ "Unknown": 1, "NoMine": 2, "Mine": 3, "Invalid": 4 });
-class Game {
-    constructor(width, height, mineCount) {
+var Game = /** @class */ (function () {
+    function Game(width, height, mineCount) {
         this.width = width;
         this.height = height;
         this.mineCount = mineCount;
     }
-    Start(contentElement) {
+    Game.prototype.Start = function (contentElement) {
         this.cellStatuses = [];
         this.gameIsOver = false;
         this.contentElement = contentElement;
-        for (let y = 0; y < this.height; y++) {
-            for (let x = 0; x < this.width; x++) {
+        for (var y = 0; y < this.height; y++) {
+            for (var x = 0; x < this.width; x++) {
                 this.SetCellStatus(x, y, CellStatus.Unknown);
             }
         }
-        for (let i = 0; i < this.mineCount; i++) {
-            let x = Math.floor(Math.random() * this.width);
-            let y = Math.floor(Math.random() * this.height);
+        for (var i = 0; i < this.mineCount; i++) {
+            var x = Math.floor(Math.random() * this.width);
+            var y = Math.floor(Math.random() * this.height);
             // Let's make sure that this position isn't already in the mine list.
             // If it is, then we'll push the position forward by 1 until we find
             // a position at which there is no mine.
@@ -33,13 +33,13 @@ class Game {
             }
             this.SetCellStatus(x, y, CellStatus.Mine);
         }
-        let gridHtml = "<table>";
-        for (let y = 0; y < this.height; y++) {
+        var gridHtml = "<table>";
+        for (var y = 0; y < this.height; y++) {
             gridHtml += "<tr>";
-            for (let x = 0; x < this.width; x++) {
-                gridHtml += `<td class="Cell Unknown" data-x="${x}" data-y="${y}">`;
+            for (var x = 0; x < this.width; x++) {
+                gridHtml += "<td class=\"Cell Unknown\" data-x=\"" + x + "\" data-y=\"" + y + "\">";
                 if (this.IsMineAt(x, y)) {
-                    gridHtml += `<span class="MineCell">💣</span>`;
+                    gridHtml += "<span class=\"MineCell\">\uD83D\uDCA3</span>";
                 }
                 gridHtml += "</td>";
             }
@@ -51,13 +51,13 @@ class Game {
         $(".Cell").on("click", { game: this }, function (event) {
             event.data.game.OnCellClicked($(this));
         });
-    }
-    OnCellClicked(cellElement) {
+    };
+    Game.prototype.OnCellClicked = function (cellElement) {
         if (this.gameIsOver) {
             return;
         }
-        let x = cellElement.data("x");
-        let y = cellElement.data("y");
+        var x = cellElement.data("x");
+        var y = cellElement.data("y");
         // If the player clicked on a mine cell, then the player has lost.
         if (this.IsMineAt(x, y)) {
             cellElement.removeClass("Unknown");
@@ -68,8 +68,9 @@ class Game {
         else {
             this.UpdateCell(cellElement.data("x"), cellElement.data("y"));
         }
-    }
-    UpdateCell(x, y) {
+    };
+    Game.prototype.UpdateCell = function (x, y) {
+        var _this = this;
         // We'll only do anything to update a cell if it's a valid cell
         // whose status is unknown.  Otherwise, there's nothing for us to update.
         if (this.GetCellStatus(x, y) != CellStatus.Unknown ||
@@ -77,45 +78,45 @@ class Game {
             y < 0 || y >= this.height) {
             return;
         }
-        let cellElement = $(`.Cell[data-x="${x}"][data-y="${y}"]`);
-        let mineCount = 0;
-        this.InvokeOnSurroundingCells(x, y, (adjacentX, adjacentY) => {
-            if (this.IsMineAt(adjacentX, adjacentY)) {
+        var cellElement = $(".Cell[data-x=\"" + x + "\"][data-y=\"" + y + "\"]");
+        var mineCount = 0;
+        this.InvokeOnSurroundingCells(x, y, function (adjacentX, adjacentY) {
+            if (_this.IsMineAt(adjacentX, adjacentY)) {
                 mineCount++;
             }
         });
         cellElement.removeClass("Unknown");
         cellElement.addClass("Filled");
         if (mineCount > 0) {
-            cellElement.html(`<span class="MineCountCell Mine${mineCount}">${mineCount}</span>`);
+            cellElement.html("<span class=\"MineCountCell Mine" + mineCount + "\">" + mineCount + "</span>");
         }
         else {
             this.SetCellStatus(x, y, CellStatus.NoMine);
-            this.InvokeOnSurroundingCells(x, y, (adjacentX, adjacentY) => {
-                this.UpdateCell(adjacentX, adjacentY);
+            this.InvokeOnSurroundingCells(x, y, function (adjacentX, adjacentY) {
+                _this.UpdateCell(adjacentX, adjacentY);
             });
         }
-    }
-    IsValidCell(x, y) {
+    };
+    Game.prototype.IsValidCell = function (x, y) {
         return x >= 0 && x < this.width && y >= 0 && y < this.height;
-    }
-    GetCellStatus(x, y) {
+    };
+    Game.prototype.GetCellStatus = function (x, y) {
         if (!this.IsValidCell(x, y)) {
             return CellStatus.Invalid;
         }
         else {
             return this.cellStatuses[x + y * this.width];
         }
-    }
-    SetCellStatus(x, y, cellStatus) {
+    };
+    Game.prototype.SetCellStatus = function (x, y, cellStatus) {
         if (this.IsValidCell(x, y)) {
             this.cellStatuses[x + y * this.width] = cellStatus;
         }
-    }
-    IsMineAt(x, y) {
+    };
+    Game.prototype.IsMineAt = function (x, y) {
         return this.GetCellStatus(x, y) == CellStatus.Mine;
-    }
-    InvokeOnSurroundingCells(x, y, func) {
+    };
+    Game.prototype.InvokeOnSurroundingCells = function (x, y, func) {
         func(x - 1, y - 1);
         func(x, y - 1);
         func(x + 1, y - 1);
@@ -124,6 +125,7 @@ class Game {
         func(x - 1, y + 1);
         func(x, y + 1);
         func(x + 1, y + 1);
-    }
-}
+    };
+    return Game;
+}());
 //# sourceMappingURL=Game.js.map

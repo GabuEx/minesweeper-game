@@ -1,0 +1,23 @@
+{
+  "name": "minesweeper-game",
+  "version": "1.0.0",
+  "description": "A variant on the classic Minesweeper game",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GabuEx/minesweeper-game.git"
+  },
+  "author": "GabuEx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GabuEx/minesweeper-game/issues"
+  },
+  "homepage": "https://github.com/GabuEx/minesweeper-game#readme",
+  "dependencies": {
+    "@types/jquery": "^3.3.22",
+    "typescript": "^2.9.2"
+  }
+}
